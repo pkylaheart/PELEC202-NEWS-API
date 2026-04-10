@@ -7,18 +7,23 @@ function NewsCard({ article, onClick, getTimeAgo }) {
     >
       <img
         src={article.urlToImage || "https://via.placeholder.com/80"}
-        className="image"
         alt="news"
+        style={{
+          width: 80,
+          height: 80,
+          objectFit: "cover",
+          borderRadius: 12
+        }}
       />
 
-      <div>
+      <div style={{ flex: 1 }}>
         <h4 style={{ margin: 0 }}>
           {article.title}
         </h4>
 
         <p className="meta">
           {article.source?.name} •{" "}
-          {getTimeAgo ? getTimeAgo(article.publishedAt) : ""}
+          {getTimeAgo(article.publishedAt)}
         </p>
       </div>
     </div>
