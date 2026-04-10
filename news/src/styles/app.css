@@ -114,12 +114,12 @@ h3 {
 }
 
 .badge {
-  background: #ff3b30;
+  background: #ff0000;
   text-decoration: solid;
-  color: white;
+  color: rgb(255, 255, 255);
   padding: 4px 8px;
   border-radius: 10px;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .card {
@@ -393,4 +393,92 @@ h3 {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.bookmarkPage {
+  padding: 16px;
+}
+
+.bookmarkTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.bookmarkEmpty {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.bookmarkIcon {
+  font-size: 100px;
+  opacity: 0.2;
+  margin-bottom: 20px;
+}
+
+.bookmarkEmpty h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.bookmarkEmpty p {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.browseBtn {
+  background: #444;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 14px;
+  border: none;
+  font-weight: bold;
+  width: 80%;
+  cursor: pointer;
+}
+
+.articleHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  font-weight: bold;
+}
+
+.articleContent {
+  padding: 16px;
+}
+
+.articleImage {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.articleTitle {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.articleMeta {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.articleText {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.bookmarkBtn {
+  background: black;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 20px;
+  cursor: pointer;
 }
