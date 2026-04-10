@@ -75,10 +75,10 @@
 
 .card {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 15px;
   align-items: center;
-  padding: 8px;
+  padding: 10px 0;
   border-radius: 12px;
 }
 
@@ -273,4 +273,25 @@
   flex: 1;
   overflow-y: auto;
   padding-bottom: 80px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  cursor: pointer;
+}
+
+.navIcon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
+  transition: 0.2s ease;
+}
+
+/* ACTIVE STATE 🔥 */
+.navItem.active .navIcon {
+  opacity: 1;
+  transform: scale(1.2);
 }
