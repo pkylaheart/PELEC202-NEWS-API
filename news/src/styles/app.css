@@ -85,6 +85,7 @@ h3 {
 }
 
 .tab {
+  padding-bottom: 10px;
   font-size: 14px;
   cursor: pointer;
   position: relative;
@@ -299,5 +300,33 @@ h3 {
 /* ACTIVE STATE 🔥 */
 .navItem.active .navIcon {
   opacity: 1;
-  transform: scale(1.2);
+}
+
+/* SCROLL AREA */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 6px; /* spacing from scrollbar */
+  padding-bottom: 80px;
+}
+
+/* SCROLLBAR */
+.content::-webkit-scrollbar {
+  width: 3px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 80px;   /* push down from header */
+  margin-bottom: 90px; /* push up from nav */
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
+
+h3 {
+  margin-top: 16px;
+  margin-bottom: 10px;
 }
