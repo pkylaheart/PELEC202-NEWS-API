@@ -9,8 +9,13 @@ import Featured from "./components/Featured";
 import NewsCard from "./components/NewsCard";
 import NotificationPanel from "./components/NotificationPanel";
 import SearchBar from "./components/SearchBar";
+import WelcomeScreen from "./components/WelcomeScreen";
 
 function App() {
+  const [started, setStarted] = useState(
+    localStorage.getItem("started") === "true"
+  );
+
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -25,7 +30,18 @@ function App() {
 
   const API_KEY = process.env.REACT_APP_API_KEY;
 
-  // TIME AGO
+  // ✅ ALWAYS RUN (fixes error)
+  useEffect(() => {
+    if (started) {
+      fetchNews(category);
+    }
+  }, [category, started]);
+
+  const handleStart = () => {
+    localStorage.setItem("started", "true");
+    setStarted(true);
+  };
+
   const getTimeAgo = (date) => {
     if (!date) return "";
     const now = new Date();
@@ -62,21 +78,33 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    fetchNews(category);
-  }, [category]);
-
   const handleSearch = () => {
     if (search.trim()) fetchNews("", search);
   };
+
+  // ✅ ONBOARDING (NOW SAFE)
+  if (!started) {
+    return (
+      <div className="page">
+        <div className="container fadeIn">
+          <WelcomeScreen onStart={handleStart} />
+        </div>
+      </div>
+    );
+  }
 
   // ARTICLE VIEW
   if (selectedArticle) {
     return (
       <div className="page">
         <div className="container">
-          <div className="content" style={{ padding: 16 }}>
+          <Header
+            setShowSearch={setShowSearch}
+            setShowNotif={setShowNotif}
+            showSearch={showSearch}
+          />
 
+          <div className="content fadeUp" style={{ padding: 16 }}>
             <button onClick={() => setSelectedArticle(null)}>← Back</button>
 
             <img
@@ -101,7 +129,6 @@ function App() {
             </button>
 
             <p>{selectedArticle.description}</p>
-
           </div>
 
           <BottomNav active={activeNav} setActive={setActiveNav} />
@@ -112,7 +139,7 @@ function App() {
 
   if (loading) {
     return (
-      <div className="loadingContainer">
+      <div className="loadingContainer fadeIn">
         <div className="spinner"></div>
         <p>Loading news...</p>
       </div>
@@ -125,13 +152,13 @@ function App() {
     <div className="page">
       <div className="container">
 
-        <div className="content">
+        <Header
+          setShowSearch={setShowSearch}
+          setShowNotif={setShowNotif}
+          showSearch={showSearch}
+        />
 
-          <Header
-            setShowSearch={setShowSearch}
-            setShowNotif={setShowNotif}
-            showSearch={showSearch}
-          />
+        <div className="content fadeUp">
 
           {showSearch && (
             <SearchBar
