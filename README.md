@@ -64,11 +64,11 @@ npm start
 
 ---
 
-## PREVIEW
+## 📸 PREVIEW
 
 <p>
-  <img src="./preview/Onboarding.png" width="250"/>
-  <img src="./preview/NewsApp.png" width="250"/>
+  <img src="./news/public/preview/Onboarding.png" width="250"/>
+  <img src="./news/public/preview/NewsApp.png" width="250"/>
 </p>
 
 ---
