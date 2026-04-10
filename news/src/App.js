@@ -29,14 +29,10 @@ function App() {
   const API_KEY = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
-    if (started) {
-      fetchNews(category);
-    }
+    if (started) fetchNews(category);
   }, [category, started]);
 
-  const handleStart = () => {
-    setStarted(true);
-  };
+  const handleStart = () => setStarted(true);
 
   const getTimeAgo = (date) => {
     if (!date) return "";
@@ -64,30 +60,12 @@ function App() {
 
       const res = await axios.get(url);
 
-      if (res.data.status !== "ok") {
-        throw new Error(res.data.message || "API Error");
-      }
-
       const data = res.data.articles || [];
-
-      if (data.length === 0) {
-        throw new Error("No news found");
-      }
 
       setArticles(data);
       setNotifArticles(data.slice(0, 5));
-
     } catch (err) {
-      console.error(err);
-
-      if (err.response) {
-        setError("Server error. Try again later.");
-      } else if (err.request) {
-        setError("No internet connection.");
-      } else {
-        setError(err.message || "Something went wrong");
-      }
-
+      setError("Failed to load news");
       setArticles([]);
     } finally {
       setLoading(false);
@@ -109,34 +87,6 @@ function App() {
     );
   }
 
-  // ARTICLE VIEW
-  if (selectedArticle) {
-    return (
-      <div className="page">
-        <div className="container">
-
-          <div className="articleHeader">
-            <button onClick={() => setSelectedArticle(null)}>←</button>
-            <h3>NEWS</h3>
-          </div>
-
-          <div className="articleContent">
-
-            <img
-              src={selectedArticle.urlToImage}
-              className="articleImage"
-              alt="news"
-            />
-
-            <h2 className="articleTitle">
-              {selectedArticle.title}
-            </h2>
-
-            <p className="articleMeta">
-              {selectedArticle.source?.name} •{" "}
-              {getTimeAgo(selectedArticle.publishedAt)}
-            </p>
-
             <button
               className="bookmarkBtn"
               onClick={() =>
@@ -145,132 +95,149 @@ function App() {
             >
               🔖 Save Article
             </button>
-
-            <p className="articleText">
-              {selectedArticle.description}
-            </p>
-
-          </div>
-
-          <BottomNav active={activeNav} setActive={setActiveNav} />
-
-        </div>
-      </div>
-    );
-  }
-
+  // MAIN UI (IMPORTANT FIX: NAV ALWAYS HERE)
   return (
     <div className="page">
       <div className="container">
 
-        <Header
-          setShowSearch={setShowSearch}
-          setShowNotif={setShowNotif}
-          showSearch={showSearch}
-        />
+        {/* HEADER */}
+        {!selectedArticle && (
+          <Header
+            setShowSearch={setShowSearch}
+            setShowNotif={setShowNotif}
+            showSearch={showSearch}
+          />
+        )}
 
-        <div className="content fadeUp">
+        <div className="content">
 
-          {showSearch && (
-            <SearchBar
-              search={search}
-              setSearch={setSearch}
-              handleSearch={handleSearch}
-            />
-          )}
+          {/* ARTICLE VIEW */}
+          {selectedArticle ? (
+            <div className="articleContainer">
 
-          {loading && (
-            <p style={{ textAlign: "center" }}>Loading news...</p>
-          )}
+              <div className="articleHeader">
+                <button onClick={() => setSelectedArticle(null)}>←</button>
+                <h3>NEWS</h3>
+              </div>
 
-          {error && (
-            <p style={{ color: "red", textAlign: "center" }}>{error}</p>
-          )}
+              <img
+                src={
+                  selectedArticle.urlToImage ||
+                  "https://via.placeholder.com/400x200"
+                }
+                className="articleImage"
+                alt="news"
+              />
 
-          {!loading && !error && (
+              <h2 className="articleTitle">
+                {selectedArticle.title}
+              </h2>
+
+              <p className="articleMeta">
+                {selectedArticle.source?.name} •{" "}
+                {getTimeAgo(selectedArticle.publishedAt)}
+              </p>
+
+              <button
+                className="bookmarkBtn"
+                onClick={() =>
+                  setSavedNews(prev => [...prev, selectedArticle])
+                }
+              >
+                <img src="/assets/bookmark.png" className="iconSmall" />
+                Save Article
+              </button>
+
+              {/* ✅ FIX CONTENT */}
+              <p className="articleText">
+                {selectedArticle.content ||
+                 selectedArticle.description ||
+                 "No content available. Click the source to read full article."}
+              </p>
+
+              <a
+                href={selectedArticle.url}
+                target="_blank"
+                rel="noreferrer"
+                className="readMoreBtn"
+              >
+                Read Full Article →
+              </a>
+
+            </div>
+          ) : (
             <>
-              {activeNav === "home" && (
-                <>
-                  <Tabs category={category} setCategory={setCategory} />
-                  <Featured article={articles[0]} />
-
-                  <h3>Hot Stories</h3>
-
-                  {articles.slice(1, 7).map((article, i) => (
-                    <NewsCard
-                      key={i}
-                      article={article}
-                      onClick={() => setSelectedArticle(article)}
-                      getTimeAgo={getTimeAgo}
-                    />
-                  ))}
-                </>
+              {showSearch && (
+                <SearchBar
+                  search={search}
+                  setSearch={setSearch}
+                  handleSearch={handleSearch}
+                />
               )}
 
-              {activeNav === "trending" && (
+              {loading && <p>Loading news...</p>}
+              {error && <p style={{ color: "red" }}>{error}</p>}
+
+              {!loading && !error && (
                 <>
-                  <h3>🔥 Trending</h3>
+                  {activeNav === "home" && (
+                    <>
+                      <Tabs category={category} setCategory={setCategory} />
+                      <Featured article={articles[0]} />
 
-                  {articles.map((article, i) => (
-                    <NewsCard
-                      key={i}
-                      article={article}
-                      onClick={() => setSelectedArticle(article)}
-                      getTimeAgo={getTimeAgo}
-                    />
-                  ))}
-                </>
-              )}
+                      <h3>Hot Stories</h3>
 
-              {activeNav === "saved" && (
-                <div className="bookmarkPage">
-
-                  <h2 className="bookmarkTitle">BOOKMARKS</h2>
-
-                  {savedNews.length === 0 ? (
-                    <div className="bookmarkEmpty">
-
-                      <div className="bookmarkIcon">🔖</div>
-
-                      <h3>No Bookmarks</h3>
-
-                      <p>
-                        Add content by tapping the bookmark icon on the article
-                      </p>
-
-                      <button
-                        className="browseBtn"
-                        onClick={() => setActiveNav("home")}
-                      >
-                        BROWSE NEWS FEED
-                      </button>
-
-                    </div>
-                  ) : (
-                    savedNews.map((article, i) => (
-                      <NewsCard
-                        key={i}
-                        article={article}
-                        onClick={() => setSelectedArticle(article)}
-                        getTimeAgo={getTimeAgo}
-                      />
-                    ))
+                      {articles.slice(1, 7).map((article, i) => (
+                        <NewsCard
+                          key={i}
+                          article={article}
+                          onClick={() => setSelectedArticle(article)}
+                          getTimeAgo={getTimeAgo}
+                        />
+                      ))}
+                    </>
                   )}
 
-                </div>
+                  {activeNav === "trending" && (
+                    <>
+                      <h3>🔥 Trending</h3>
+                      {articles.map((article, i) => (
+                        <NewsCard
+                          key={i}
+                          article={article}
+                          onClick={() => setSelectedArticle(article)}
+                          getTimeAgo={getTimeAgo}
+                        />
+                      ))}
+                    </>
+                  )}
+
+                  {activeNav === "saved" && (
+                    <div className="bookmarkPage">
+                      <h2>BOOKMARKS</h2>
+
+                      {savedNews.length === 0 ? (
+                        <p>No saved articles</p>
+                      ) : (
+                        savedNews.map((article, i) => (
+                          <NewsCard
+                            key={i}
+                            article={article}
+                            onClick={() => setSelectedArticle(article)}
+                            getTimeAgo={getTimeAgo}
+                          />
+                        ))
+                      )}
+                    </div>
+                  )}
+                </>
               )}
             </>
           )}
 
-          {showNotif && (
-            <NotificationPanel
-              notifArticles={notifArticles}
-              setShowNotif={setShowNotif}
-            />
-          )}
-
         </div>
 
+        {/* 🔥 FIXED NAV (ALWAYS HERE) */}
         <BottomNav active={activeNav} setActive={setActiveNav} />
 
       </div>
