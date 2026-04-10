@@ -1,8 +1,9 @@
-# 📰 NEWS APP
+# NEWS APP
 
 ---
 
-## 👥 MEMBERS
+## MEMBERS
+```
 
 Perlada, Christian Leo A.
 Capistrano, Clyde P.
@@ -16,10 +17,10 @@ Melecia, Christian Lenard P.
 Jorquia, Jose Maria D.
 Sebuc, Karl Louise S.
 Chua, Carl Angelo D.
-
+```
 ---
 
-## 🚀 Tech Stack
+## Tech Stack
 
 * React JS
 * Axios
@@ -28,7 +29,7 @@ Chua, Carl Angelo D.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 src/
@@ -63,16 +64,16 @@ npm start
 
 ---
 
-## 📸 PREVIEW
+## PREVIEW
 
 <p>
-  <img src="./preview/Onboarding.png" width="250"/>
-  <img src="./preview/NewsApp.png" width="250"/>
+  <img src="./public/preview/Onboarding.png" width="250"/>
+  <img src="./public/preview/NewsApp.png" width="250"/>
 </p>
 
 ---
 
-## 🔑 API Setup
+## API Setup
 
 Create a `.env` file in the root directory:
 
@@ -84,6 +85,6 @@ Get your API key from: https://newsapi.org/
 
 ---
 
-## 📄 License
+## License
 
 This project is for educational purposes.
