@@ -1,24 +1,27 @@
-function NewsCard({ article }) {
+function NewsCard({ article, onClick, getTimeAgo }) {
   return (
-    <a
-      href={article.url}
-      target="_blank"
-      rel="noreferrer"
-      style={{ textDecoration: "none", color: "inherit" }}
+    <div
+      className="card"
+      onClick={onClick}
+      style={{ cursor: "pointer" }}
     >
-      <div className="card">
-        <img
-          src={article.urlToImage || "https://via.placeholder.com/80"}
-          className="image"
-          alt="news"
-        />
+      <img
+        src={article.urlToImage || "https://via.placeholder.com/80"}
+        className="image"
+        alt="news"
+      />
 
-        <div>
-          <h4>{article.title}</h4>
-          <p className="meta">{article.source?.name}</p>
-        </div>
+      <div>
+        <h4 style={{ margin: 0 }}>
+          {article.title}
+        </h4>
+
+        <p className="meta">
+          {article.source?.name} •{" "}
+          {getTimeAgo ? getTimeAgo(article.publishedAt) : ""}
+        </p>
       </div>
-    </a>
+    </div>
   );
 }
 
