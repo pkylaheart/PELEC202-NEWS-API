@@ -1,7 +1,9 @@
+import bellIcon from "../assets/bell.png";
+import searchIcon from "../assets/search.png";
+
 function Header({ setShowSearch, setShowNotif, showSearch }) {
   return (
     <div className="header">
-      <h2 style={{ margin: 0, fontWeight: 700 }}>🔴 Broken News</h2>
 
       <div style={{ display: "flex", gap: 14 }}>
         <svg
@@ -23,6 +25,7 @@ function Header({ setShowSearch, setShowNotif, showSearch }) {
           🔔
         </span>
       </div>
+
     </div>
   );
 }

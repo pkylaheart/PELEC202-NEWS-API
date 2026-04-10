@@ -7,6 +7,11 @@
   padding: 20px;
 }
 
+h3 {
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
 .container {
   position: relative;
   width: 380px;
@@ -29,9 +34,48 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 10px;
+
+  padding: 8px 0 14px 0;
 }
 
+/* LEFT SIDE */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 🔥 THIS FIXES YOUR PROBLEM */
+.logo h2 {
+  font-size: 22px;   /* BIGGER */
+  font-weight: 700;
+  margin: 0;
+}
+
+/* red dot */
+.dot {
+  width: 14px;
+  height: 14px;
+  background: red;
+  border-radius: 50%;
+}
+
+/* RIGHT ICONS */
+.icons {
+  display: flex;
+  gap: 16px;
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.icon:hover {
+  opacity: 1;
+}
 .tabs {
   display: flex;
   justify-content: space-between;
@@ -45,6 +89,10 @@
   cursor: pointer;
   position: relative;
   padding-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  border-bottom: 1px solid #eee;
 }
 
 .underline {
@@ -108,11 +156,12 @@
 }
 
 .searchBtn {
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 10px;
   background: black;
   color: white;
   border: none;
+  font-size: 12px;
 }
 
 .loadingContainer {
@@ -170,49 +219,6 @@
   border-bottom: 1px solid #f2f2f2;
   text-decoration: none;
   color: black;
-}
-
-.menuPanel {
-  width: 250px;
-  background: white;
-  border-radius: 16px;
-  padding: 16px;
-  max-height: 60vh;
-}
-
-.menuItem {
-  padding: 12px;
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-}
-
-.menuOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 1000;
-  opacity: 1;
-  transition: 0.3s ease;
-}
-
-.menuDrawer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 260px;
-  height: 100%;
-  background: #fff;
-  padding: 16px;
-  box-shadow: 2px 0 20px rgba(0,0,0,0.2);
-  transform: translateX(0);
-  transition: transform 0.3s ease;
-}
-
-.menuDrawerClosed {
-  transform: translateX(-100%);
 }
 
 @keyframes spin {
@@ -273,4 +279,48 @@
   flex: 1;
   overflow-y: auto;
   padding-bottom: 80px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  cursor: pointer;
+}
+
+.navIcon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.4;
+  transition: 0.2s ease;
+}
+
+/* SIMPLE COLOR CHANGE ONLY */
+.navItem.active .navIcon {
+  opacity: 1;
+}
+
+/* SCROLL AREA */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 6px; /* spacing from scrollbar */
+  padding-bottom: 80px;
+}
+
+/* SCROLLBAR */
+.content::-webkit-scrollbar {
+  width: 3px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 80px;   /* push down from header */
+  margin-bottom: 90px; /* push up from nav */
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
 }

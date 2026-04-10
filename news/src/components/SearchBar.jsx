@@ -8,7 +8,7 @@ function SearchBar({ search, setSearch, handleSearch }) {
         className="searchInput"
       />
       <button onClick={handleSearch} className="searchBtn">
-        Go
+        Search
       </button>
     </div>
   );
