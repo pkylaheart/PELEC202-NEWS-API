@@ -13,6 +13,7 @@ import WelcomeScreen from "./components/WelcomeScreen";
 function App() {
   const [started, setStarted] = useState(false);
 
+  const [showNotif, setShowNotif] = useState(false);
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -108,7 +109,6 @@ function App() {
             <div className="articleContainer">
 
               <button onClick={() => setSelectedArticle(null)}>← Back</button>
-
               <img
                 src={selectedArticle.urlToImage || "https://via.placeholder.com/300"}
                 className="articleImage"
@@ -197,7 +197,7 @@ function App() {
 
                       {savedNews.length === 0 ? (
                         <div className="bookmarkEmpty">
-                          <div className="bookmarkBig">🔖</div>
+                          <div className="bookmarkBigIcon">🔖</div>
                           <h3>No Bookmarks</h3>
                         </div>
                       ) : (

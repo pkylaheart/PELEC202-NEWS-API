@@ -473,6 +473,7 @@ h3 {
   line-height: 1.6;
 }
 
+
 .bookmarkBtn {
   background: black;
   color: white;
@@ -481,4 +482,58 @@ h3 {
   border: none;
   margin-bottom: 20px;
   cursor: pointer;
+}
+.readMoreBtn {
+  display: block;
+  margin-top: 16px;
+  padding: 12px;
+  text-align: center;
+  background: black;
+  color: white;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* BIG ICON */
+.bookmarkBigIcon {
+  font-size: 120px;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icons img {
+  width: 22px;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+/* RED DOT */
+.dot {
+  width: 10px;
+  height: 10px;
+  background: red;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+/* ARTICLE HEADER */
+.articleHeader {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  z-index: 10;
 }
