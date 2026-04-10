@@ -7,7 +7,6 @@ import BottomNav from "./components/BottomNav";
 import Tabs from "./components/Tabs";
 import Featured from "./components/Featured";
 import NewsCard from "./components/NewsCard";
-import NotificationPanel from "./components/NotificationPanel";
 import SearchBar from "./components/SearchBar";
 import WelcomeScreen from "./components/WelcomeScreen";
 
@@ -20,8 +19,6 @@ function App() {
   const [category, setCategory] = useState("general");
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
-  const [showNotif, setShowNotif] = useState(false);
-  const [notifArticles, setNotifArticles] = useState([]);
   const [activeNav, setActiveNav] = useState("home");
   const [savedNews, setSavedNews] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState(null);
@@ -34,19 +31,34 @@ function App() {
 
   const handleStart = () => setStarted(true);
 
+  const handleNavChange = (nav) => {
+    setSelectedArticle(null);
+    setActiveNav(nav);
+  };
+
+  const isSameArticle = (a, b) =>
+    a.title === b.title && a.source?.name === b.source?.name;
+
+  const isSaved = (article) =>
+    savedNews.some(item => isSameArticle(item, article));
+
+  const toggleSave = (article) => {
+    if (isSaved(article)) {
+      setSavedNews(prev =>
+        prev.filter(item => !isSameArticle(item, article))
+      );
+    } else {
+      setSavedNews(prev => [...prev, article]);
+    }
+  };
+
   const getTimeAgo = (date) => {
     if (!date) return "";
-    const now = new Date();
-    const past = new Date(date);
-    const diff = Math.floor((now - past) / 1000);
-
-    const minutes = Math.floor(diff / 60);
-    const hours = Math.floor(diff / 3600);
-    const days = Math.floor(diff / 86400);
-
-    if (minutes < 60) return `${minutes}m ago`;
-    if (hours < 24) return `${hours}h ago`;
-    return `${days}d ago`;
+    const diff = Math.floor((new Date() - new Date(date)) / 1000);
+    const h = Math.floor(diff / 3600);
+    const d = Math.floor(diff / 86400);
+    if (h < 24) return `${h}h ago`;
+    return `${d}d ago`;
   };
 
   const fetchNews = async (selectedCategory = "general", query = "") => {
@@ -59,14 +71,9 @@ function App() {
         : `https://newsapi.org/v2/top-headlines?country=us&category=${selectedCategory}&apiKey=${API_KEY}`;
 
       const res = await axios.get(url);
-
-      const data = res.data.articles || [];
-
-      setArticles(data);
-      setNotifArticles(data.slice(0, 5));
-    } catch (err) {
+      setArticles(res.data.articles || []);
+    } catch {
       setError("Failed to load news");
-      setArticles([]);
     } finally {
       setLoading(false);
     }
@@ -76,62 +83,39 @@ function App() {
     if (search.trim()) fetchNews("", search);
   };
 
-  // ONBOARDING
   if (!started) {
     return (
       <div className="page">
-        <div className="container fadeIn">
+        <div className="container">
           <WelcomeScreen onStart={handleStart} />
         </div>
       </div>
     );
   }
 
-            <button
-              className="bookmarkBtn"
-              onClick={() =>
-                setSavedNews(prev => [...prev, selectedArticle])
-              }
-            >
-              🔖 Save Article
-            </button>
-  // MAIN UI (IMPORTANT FIX: NAV ALWAYS HERE)
   return (
     <div className="page">
       <div className="container">
 
-        {/* HEADER */}
         {!selectedArticle && (
-          <Header
-            setShowSearch={setShowSearch}
-            setShowNotif={setShowNotif}
-            showSearch={showSearch}
-          />
+          <Header setShowSearch={setShowSearch} />
         )}
 
         <div className="content">
 
-          {/* ARTICLE VIEW */}
+          {/* ARTICLE */}
           {selectedArticle ? (
             <div className="articleContainer">
 
-              <div className="articleHeader">
-                <button onClick={() => setSelectedArticle(null)}>←</button>
-                <h3>NEWS</h3>
-              </div>
+              <button onClick={() => setSelectedArticle(null)}>← Back</button>
 
               <img
-                src={
-                  selectedArticle.urlToImage ||
-                  "https://via.placeholder.com/400x200"
-                }
+                src={selectedArticle.urlToImage || "https://via.placeholder.com/300"}
                 className="articleImage"
-                alt="news"
+                alt=""
               />
 
-              <h2 className="articleTitle">
-                {selectedArticle.title}
-              </h2>
+              <h2>{selectedArticle.title}</h2>
 
               <p className="articleMeta">
                 {selectedArticle.source?.name} •{" "}
@@ -140,21 +124,17 @@ function App() {
 
               <button
                 className="bookmarkBtn"
-                onClick={() =>
-                  setSavedNews(prev => [...prev, selectedArticle])
-                }
+                onClick={() => toggleSave(selectedArticle)}
               >
-                <img src="/assets/bookmark.png" className="iconSmall" />
-                Save Article
+                {isSaved(selectedArticle)
+                  ? "🔖 Unsave Article"
+                  : "🔖 Save Article"}
               </button>
 
-              {/* ✅ FIX CONTENT */}
-              <p className="articleText">
-                {selectedArticle.content ||
-                 selectedArticle.description ||
-                 "No content available. Click the source to read full article."}
+              <p>
+                {(selectedArticle.content || selectedArticle.description || "")
+                  .replace(/\[\+\d+ chars\]/, "")}
               </p>
-
               <a
                 href={selectedArticle.url}
                 target="_blank"
@@ -175,8 +155,8 @@ function App() {
                 />
               )}
 
-              {loading && <p>Loading news...</p>}
-              {error && <p style={{ color: "red" }}>{error}</p>}
+              {loading && <p>Loading...</p>}
+              {error && <p>{error}</p>}
 
               {!loading && !error && (
                 <>
@@ -187,11 +167,11 @@ function App() {
 
                       <h3>Hot Stories</h3>
 
-                      {articles.slice(1, 7).map((article, i) => (
+                      {articles.slice(1, 7).map((a, i) => (
                         <NewsCard
                           key={i}
-                          article={article}
-                          onClick={() => setSelectedArticle(article)}
+                          article={a}
+                          onClick={() => setSelectedArticle(a)}
                           getTimeAgo={getTimeAgo}
                         />
                       ))}
@@ -201,11 +181,11 @@ function App() {
                   {activeNav === "trending" && (
                     <>
                       <h3>🔥 Trending</h3>
-                      {articles.map((article, i) => (
+                      {articles.map((a, i) => (
                         <NewsCard
                           key={i}
-                          article={article}
-                          onClick={() => setSelectedArticle(article)}
+                          article={a}
+                          onClick={() => setSelectedArticle(a)}
                           getTimeAgo={getTimeAgo}
                         />
                       ))}
@@ -214,16 +194,18 @@ function App() {
 
                   {activeNav === "saved" && (
                     <div className="bookmarkPage">
-                      <h2>BOOKMARKS</h2>
 
                       {savedNews.length === 0 ? (
-                        <p>No saved articles</p>
+                        <div className="bookmarkEmpty">
+                          <div className="bookmarkBig">🔖</div>
+                          <h3>No Bookmarks</h3>
+                        </div>
                       ) : (
-                        savedNews.map((article, i) => (
+                        savedNews.map((a, i) => (
                           <NewsCard
                             key={i}
-                            article={article}
-                            onClick={() => setSelectedArticle(article)}
+                            article={a}
+                            onClick={() => setSelectedArticle(a)}
                             getTimeAgo={getTimeAgo}
                           />
                         ))
@@ -234,11 +216,9 @@ function App() {
               )}
             </>
           )}
-
         </div>
 
-        {/* 🔥 FIXED NAV (ALWAYS HERE) */}
-        <BottomNav active={activeNav} setActive={setActiveNav} />
+        <BottomNav active={activeNav} setActive={handleNavChange} />
 
       </div>
     </div>
