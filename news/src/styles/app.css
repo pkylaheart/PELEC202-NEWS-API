@@ -123,10 +123,10 @@ h3 {
 
 .card {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 15px;
   align-items: center;
-  padding: 8px;
+  padding: 10px 0;
   border-radius: 12px;
 }
 
@@ -292,35 +292,12 @@ h3 {
 .navIcon {
   width: 24px;
   height: 24px;
-  opacity: 0.4;
+  opacity: 0.5;
   transition: 0.2s ease;
 }
 
-/* SIMPLE COLOR CHANGE ONLY */
+/* ACTIVE STATE 🔥 */
 .navItem.active .navIcon {
   opacity: 1;
-}
-
-/* SCROLL AREA */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 6px; /* spacing from scrollbar */
-  padding-bottom: 80px;
-}
-
-/* SCROLLBAR */
-.content::-webkit-scrollbar {
-  width: 3px;
-}
-
-.content::-webkit-scrollbar-track {
-  background: transparent;
-  margin-top: 80px;   /* push down from header */
-  margin-bottom: 90px; /* push up from nav */
-}
-
-.content::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.2);
-  border-radius: 10px;
+  transform: scale(1.2);
 }
