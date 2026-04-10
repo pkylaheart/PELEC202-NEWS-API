@@ -2,12 +2,10 @@ function WelcomeScreen({ onStart }) {
   return (
     <div className="welcome">
 
-      {/* BIG BACKGROUND TEXT */}
       <div className="bgText">
         NEWS
       </div>
 
-      {/* CONTENT */}
       <div className="welcomeContent">
         <h2>Broken News</h2>
 

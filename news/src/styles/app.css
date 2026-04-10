@@ -45,19 +45,18 @@ h3 {
   gap: 10px;
 }
 
-/* 🔥 THIS FIXES YOUR PROBLEM */
 .logo h2 {
-  font-size: 22px;   /* BIGGER */
+  font-size: 22px;   
   font-weight: 700;
   margin: 0;
 }
 
-/* red dot */
+
 .dot {
   width: 14px;
   height: 14px;
   background: red;
-  border-radius: 50%;
+  border-radius: 70%;
 }
 
 /* RIGHT ICONS */
@@ -110,16 +109,17 @@ h3 {
   margin-top: 15px;
   padding: 16px;
   border-radius: 18px;
-  background: linear-gradient(135deg, purple, crimson);
+  background: linear-gradient(135deg, rgb(236, 106, 13), rgb(220, 157, 20));
   color: white;
 }
 
 .badge {
   background: #ff3b30;
+  text-decoration: solid;
   color: white;
   padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 10px;
+  border-radius: 10px;
+  font-size: 12px;
 }
 
 .card {
@@ -230,7 +230,7 @@ h3 {
 
 .bottomNav {
   height: 70px;
-  background: #fff;
+  background: #ffffff;
 
   display: flex;
   justify-content: space-around;
@@ -270,7 +270,6 @@ h3 {
   justify-content: center;
 }
 
-/* ACTIVE ANIMATION */
 .navItem.active {
   color: black;
   transform: translateY(-6px) scale(1.2);
@@ -297,57 +296,52 @@ h3 {
   transition: 0.2s ease;
 }
 
-/* ACTIVE STATE 🔥 */
 .navItem.active .navIcon {
   opacity: 1;
 }
 
-/* SCROLL AREA */
 .content {
   flex: 1;
   overflow-y: auto;
-  padding-right: 6px; /* spacing from scrollbar */
+  padding-right: 6px; 
   padding-bottom: 80px;
 }
 
-/* SCROLLBAR */
 .content::-webkit-scrollbar {
   width: 3px;
 }
 
 .content::-webkit-scrollbar-track {
   background: transparent;
-  margin-top: 80px;   /* push down from header */
-  margin-bottom: 90px; /* push up from nav */
+  margin-top: 80px;   
+  margin-bottom: 90px; 
 }
 
 .content::-webkit-scrollbar-thumb {
   background: rgba(0,0,0,0.2);
   border-radius: 10px;
 }
-/* FULL SCREEN */
+
 .welcome {
   width: 100%;
   height: 100%;
-  background: linear-gradient(160deg, #0f766e, #065f46);
+  background: linear-gradient(160deg, #f77009, #cd8628);
   border-radius: 28px;
 
   position: relative;
   overflow: hidden;
 }
 
-/* BIG FADED TEXT */
 .bgText {
   position: absolute;
   top: 20%;
   left: 10%;
   font-size: 100px;
   font-weight: 800;
-  color: rgba(255,255,255,0.08);
+  color: rgba(255, 255, 255, 0.63);
   line-height: 0.8;
 }
 
-/* CENTER CONTENT */
 .welcomeContent {
   position: absolute;
   bottom: 60px;
@@ -367,7 +361,6 @@ h3 {
   opacity: 0.9;
 }
 
-/* BUTTON */
 .startBtn {
   width: 100%;
   padding: 12px;

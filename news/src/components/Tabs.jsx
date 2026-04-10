@@ -15,7 +15,6 @@ function Tabs({ category, setCategory }) {
             ? "For You"
             : cat.charAt(0).toUpperCase() + cat.slice(1)}
 
-          {/* 🔥 THIS IS THE UNDERLINE */}
           {category === cat && <div className="underline"></div>}
         </div>
       ))}

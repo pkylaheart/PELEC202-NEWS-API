@@ -12,9 +12,7 @@ import SearchBar from "./components/SearchBar";
 import WelcomeScreen from "./components/WelcomeScreen";
 
 function App() {
-  const [started, setStarted] = useState(
-    localStorage.getItem("started") === "true"
-  );
+  const [started, setStarted] = useState(false);
 
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +28,6 @@ function App() {
 
   const API_KEY = process.env.REACT_APP_API_KEY;
 
-  // ✅ ALWAYS RUN (fixes error)
   useEffect(() => {
     if (started) {
       fetchNews(category);
@@ -38,7 +35,6 @@ function App() {
   }, [category, started]);
 
   const handleStart = () => {
-    localStorage.setItem("started", "true");
     setStarted(true);
   };
 
@@ -82,7 +78,6 @@ function App() {
     if (search.trim()) fetchNews("", search);
   };
 
-  // ✅ ONBOARDING (NOW SAFE)
   if (!started) {
     return (
       <div className="page">
