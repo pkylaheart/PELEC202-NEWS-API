@@ -1,15 +1,36 @@
+import { useEffect, useRef } from "react";
+
 function SearchBar({ search, setSearch, handleSearch }) {
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+    setSearch(""); // 🔥 clear every time opened
+  }, []);
+
   return (
     <div className="searchBox">
+
       <input
+        ref={inputRef}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search news..."
         className="searchInput"
       />
-      <button onClick={handleSearch} className="searchBtn">
-        Search
+
+      {/* ❌ CLEAR */}
+      {search && (
+        <button className="clearBtn" onClick={() => setSearch("")}>
+          ✕
+        </button>
+      )}
+
+      {/* 🔥 BACK TO SEARCH TEXT */}
+      <button className="searchBtn" onClick={handleSearch}>
+        SEARCH
       </button>
+
     </div>
   );
 }

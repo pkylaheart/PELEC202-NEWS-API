@@ -1,24 +1,27 @@
 function Tabs({ category, setCategory }) {
+  const categories = [
+    "general",
+    "business",
+    "technology",
+    "sports",
+    "health",
+    "science",
+    "entertainment"
+  ];
+
   return (
-    <div className="tabs">
-      {["general", "business", "sports", "technology"].map((cat) => (
+    <div className="tabsScroll">
+      {categories.map((cat) => (
         <div
           key={cat}
+          className={`tabItem ${category === cat ? "activeTab" : ""}`}
           onClick={() => setCategory(cat)}
-          className="tab"
-          style={{
-            color: category === cat ? "#000" : "#888",
-            fontWeight: category === cat ? "600" : "400",
-          }}
         >
-          {cat === "general"
-            ? "For You"
-            : cat.charAt(0).toUpperCase() + cat.slice(1)}
-
-          {category === cat && <div className="underline"></div>}
+          {cat}
         </div>
       ))}
     </div>
   );
 }
+
 export default Tabs;

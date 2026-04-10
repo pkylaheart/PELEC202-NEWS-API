@@ -12,8 +12,6 @@ import WelcomeScreen from "./components/WelcomeScreen";
 
 function App() {
   const [started, setStarted] = useState(false);
-
-  const [showNotif, setShowNotif] = useState(false);
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -104,11 +102,27 @@ function App() {
 
         <div className="content">
 
+          {/* 🔥 SEARCH (fixed spacing) */}
+          {!selectedArticle && (
+            <div className="searchWrapper">
+              {showSearch && (
+                <SearchBar
+                  search={search}
+                  setSearch={setSearch}
+                  handleSearch={handleSearch}
+                />
+              )}
+            </div>
+          )}
+
+          {/* 🔥 TABS */}
+          {!selectedArticle && activeNav !== "saved" &&(
+            <Tabs category={category} setCategory={setCategory} />
+          )}
+
           {/* ARTICLE */}
           {selectedArticle ? (
             <div className="articleContainer">
-
-              <button onClick={() => setSelectedArticle(null)}>← Back</button>
               <img
                 src={selectedArticle.urlToImage || "https://via.placeholder.com/300"}
                 className="articleImage"
@@ -135,6 +149,7 @@ function App() {
                 {(selectedArticle.content || selectedArticle.description || "")
                   .replace(/\[\+\d+ chars\]/, "")}
               </p>
+
               <a
                 href={selectedArticle.url}
                 target="_blank"
@@ -147,14 +162,6 @@ function App() {
             </div>
           ) : (
             <>
-              {showSearch && (
-                <SearchBar
-                  search={search}
-                  setSearch={setSearch}
-                  handleSearch={handleSearch}
-                />
-              )}
-
               {loading && <p>Loading...</p>}
               {error && <p>{error}</p>}
 
@@ -162,7 +169,6 @@ function App() {
                 <>
                   {activeNav === "home" && (
                     <>
-                      <Tabs category={category} setCategory={setCategory} />
                       <Featured article={articles[0]} />
 
                       <h3>Hot Stories</h3>

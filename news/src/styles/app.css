@@ -23,7 +23,7 @@ h3 {
   overflow: hidden; 
   background-color: #fff;
   border-radius: 28px;
-  padding: 18px;
+  padding: 20px;
   padding-bottom: 0; 
 
   font-family: Arial;
@@ -196,31 +196,6 @@ h3 {
   z-index: 999;
 }
 
-.notifPanel {
-  width: 340px;
-  background: white;
-  border-radius: 18px;
-  padding: 14px;
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-.notifHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 8px;
-}
-
-.notifItem {
-  display: block;
-  padding: 10px;
-  border-bottom: 1px solid #f2f2f2;
-  text-decoration: none;
-  color: black;
-}
 
 @keyframes spin {
   to {
@@ -536,4 +511,201 @@ h3 {
   padding: 12px 0;
   border-bottom: 1px solid #eee;
   z-index: 10;
+}
+.tabsScroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.tabsScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.tabItem {
+  white-space: nowrap;
+  font-size: 14px;
+  cursor: pointer;
+  padding-bottom: 6px;
+}
+
+.activeTab {
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+
+.dark {
+  background: #121212;
+  color: white;
+}
+
+.dark .container {
+  background: #1e1e1e;
+}
+
+.dark .card {
+  background: #2a2a2a;
+}
+
+.dark .meta {
+  color: #bbb;
+}
+
+.skeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeletonCard {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.skeletonImage {
+  width: 80px;
+  height: 80px;
+  background: #ddd;
+  border-radius: 12px;
+  animation: pulse 1.5s infinite;
+}
+
+.skeletonText {
+  flex: 1;
+  height: 16px;
+  background: #ddd;
+  border-radius: 6px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* OVERLAY */
+.searchOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+/* DARK BACKGROUND */
+.searchBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+}
+
+/* FLOATING BOX */
+.searchFloating {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 350px;
+  background: white;
+  padding: 10px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+  /* 🔥 animation */
+  animation: slideDown 0.25s ease;
+}
+
+/* ANIMATION */
+@keyframes slideDown {
+  from {
+    transform: translate(-50%, -20px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+/* LEFT SIDE */
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerLeft h1 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* RED DOT */
+.dot {
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+}
+
+/* RIGHT SIDE */
+.headerRight img {
+  width: 22px;
+  cursor: pointer;
+}
+
+/* 🔥 FIX SPACING */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 🔥 FIX STACKING ISSUE */
+.searchWrapper {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* 🔥 TABS CLEAR SEPARATION */
+.tabsScroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 16px 0 12px 0;
+}
+
+/* prevent text clipping */
+.tabItem {
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
+/* 🔥 PREVENT OVERLAP */
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔥 FEATURED SPACE */
+.featured {
+  margin-top: 8px;
+}
+
+/* section title spacing */
+h3 {
+  margin-top: 10px;
+  margin-bottom: 6px;
 }

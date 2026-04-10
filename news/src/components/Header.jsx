@@ -1,31 +1,20 @@
-import bellIcon from "../assets/bell.png";
 import searchIcon from "../assets/search.png";
 
-function Header({ setShowSearch, setShowNotif, showSearch }) {
+function Header({ setShowSearch }) {
   return (
     <div className="header">
 
-      <div className="logo">
+      <div className="headerLeft">
         <span className="dot"></span>
-        <h2>Broken News</h2>
+        <h1>Broken News</h1>
       </div>
 
-      <div className="icons">
-
+      <div className="headerRight">
         <img
           src={searchIcon}
           alt="search"
-          className="icon"
-          onClick={() => setShowSearch(!showSearch)}
+          onClick={() => setShowSearch(prev => !prev)}
         />
-
-        <img
-          src={bellIcon}
-          alt="notif"
-          className="icon"
-          onClick={() => setShowNotif(true)}
-        />
-
       </div>
 
     </div>
