@@ -67,8 +67,8 @@ npm start
 ## PREVIEW
 
 <p>
-  <img src="./public/preview/Onboarding.png" width="250"/>
-  <img src="./public/preview/NewsApp.png" width="250"/>
+  <img src="./preview/Onboarding.png" width="250"/>
+  <img src="./preview/NewsApp.png" width="250"/>
 </p>
 
 ---
