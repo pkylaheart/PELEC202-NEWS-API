@@ -25,7 +25,7 @@ function App() {
 
   const API_KEY = process.env.REACT_APP_API_KEY;
 
-  // 🔥 TIME AGO FUNCTION (FIXED POSITION)
+  // TIME AGO
   const getTimeAgo = (date) => {
     if (!date) return "";
     const now = new Date();
@@ -70,46 +70,46 @@ function App() {
     if (search.trim()) fetchNews("", search);
   };
 
-  // 🔥 ARTICLE VIEW (FULL SCREEN)
+  // ARTICLE VIEW
   if (selectedArticle) {
     return (
       <div className="page">
-        <div className="container" style={{ padding: 16 }}>
+        <div className="container">
+          <div className="content" style={{ padding: 16 }}>
 
-          <button onClick={() => setSelectedArticle(null)}>
-            ← Back
-          </button>
+            <button onClick={() => setSelectedArticle(null)}>← Back</button>
 
-          <img
-            src={selectedArticle.urlToImage}
-            style={{ width: "100%", borderRadius: 12 }}
-            alt="news"
-          />
+            <img
+              src={selectedArticle.urlToImage}
+              style={{ width: "100%", borderRadius: 12 }}
+              alt="news"
+            />
 
-          <h2>{selectedArticle.title}</h2>
+            <h2>{selectedArticle.title}</h2>
 
-          <p>
-            {selectedArticle.source?.name} •{" "}
-            {getTimeAgo(selectedArticle.publishedAt)}
-          </p>
+            <p>
+              {selectedArticle.source?.name} •{" "}
+              {getTimeAgo(selectedArticle.publishedAt)}
+            </p>
 
-          {/* 🔖 BOOKMARK HERE ONLY */}
-          <button
-            onClick={() =>
-              setSavedNews((prev) => [...prev, selectedArticle])
-            }
-          >
-            🔖 Save
-          </button>
+            <button
+              onClick={() =>
+                setSavedNews((prev) => [...prev, selectedArticle])
+              }
+            >
+              🔖 Save
+            </button>
 
-          <p>{selectedArticle.description}</p>
+            <p>{selectedArticle.description}</p>
 
+          </div>
+
+          <BottomNav active={activeNav} setActive={setActiveNav} />
         </div>
       </div>
     );
   }
 
-  // LOADING
   if (loading) {
     return (
       <div className="loadingContainer">
@@ -119,113 +119,100 @@ function App() {
     );
   }
 
-  // ERROR
   if (error) return <h2>{error}</h2>;
 
   return (
     <div className="page">
       <div className="container">
 
-        {/* HEADER */}
-        <Header
-          setShowSearch={setShowSearch}
-          setShowNotif={setShowNotif}
-          showSearch={showSearch}
-        />
+        <div className="content">
 
-        {/* SEARCH */}
-        {showSearch && (
-          <SearchBar
-            search={search}
-            setSearch={setSearch}
-            handleSearch={handleSearch}
+          <Header
+            setShowSearch={setShowSearch}
+            setShowNotif={setShowNotif}
+            showSearch={showSearch}
           />
-        )}
 
-        {/* HOME */}
-        {activeNav === "home" && (
-          <>
-            <Tabs category={category} setCategory={setCategory} />
-            <Featured article={articles[0]} />
+          {showSearch && (
+            <SearchBar
+              search={search}
+              setSearch={setSearch}
+              handleSearch={handleSearch}
+            />
+          )}
 
-            <h3>Hot Stories</h3>
+          {activeNav === "home" && (
+            <>
+              <Tabs category={category} setCategory={setCategory} />
+              <Featured article={articles[0]} />
 
-            {articles.slice(1, 7).map((article, i) => (
-              <NewsCard
-                key={i}
-                article={article}
-                onClick={() => setSelectedArticle(article)}
-              />
-            ))}
-          </>
-        )}
+              <h3>Hot Stories</h3>
 
-        {/* TRENDING */}
-        {activeNav === "trending" && (
-          <>
-            <h3>🔥 Trending News</h3>
-
-            {articles.map((article, i) => (
-              <NewsCard
-                key={i}
-                article={article}
-                onClick={() => setSelectedArticle(article)}
-              />
-            ))}
-          </>
-        )}
-
-        {/* BOOKMARK UI */}
-        {activeNav === "saved" && (
-          <div style={{ textAlign: "center", padding: 20 }}>
-
-            <h2>BOOKMARKS</h2>
-
-            {savedNews.length === 0 ? (
-              <>
-                <div style={{ fontSize: 80, opacity: 0.2 }}>🔖</div>
-                <h3>No Bookmarks</h3>
-                <p>Add content by tapping 🔖 on the article screen</p>
-
-                <button
-                  onClick={() => setActiveNav("home")}
-                  style={{
-                    marginTop: 20,
-                    padding: "12px 20px",
-                    borderRadius: 20,
-                    border: "none",
-                    background: "#444",
-                    color: "white"
-                  }}
-                >
-                  BROWSE NEWS FEED
-                </button>
-              </>
-            ) : (
-              savedNews.map((article, i) => (
+              {articles.slice(1, 7).map((article, i) => (
                 <NewsCard
                   key={i}
                   article={article}
                   onClick={() => setSelectedArticle(article)}
+                  getTimeAgo={getTimeAgo}
                 />
-              ))
-            )}
+              ))}
+            </>
+          )}
 
-          </div>
-        )}
+          {activeNav === "trending" && (
+            <>
+              <h3>🔥 Trending</h3>
 
-        {/* NOTIFICATIONS */}
-        {showNotif && (
-          <NotificationPanel
-            notifArticles={notifArticles}
-            setShowNotif={setShowNotif}
-          />
-        )}
+              {articles.map((article, i) => (
+                <NewsCard
+                  key={i}
+                  article={article}
+                  onClick={() => setSelectedArticle(article)}
+                  getTimeAgo={getTimeAgo}
+                />
+              ))}
+            </>
+          )}
+
+          {activeNav === "saved" && (
+            <div style={{ textAlign: "center", padding: 20 }}>
+              <h2>BOOKMARKS</h2>
+
+              {savedNews.length === 0 ? (
+                <>
+                  <div style={{ fontSize: 80, opacity: 0.2 }}>🔖</div>
+                  <h3>No Bookmarks</h3>
+                  <p>Add content by tapping 🔖</p>
+
+                  <button onClick={() => setActiveNav("home")}>
+                    BROWSE NEWS
+                  </button>
+                </>
+              ) : (
+                savedNews.map((article, i) => (
+                  <NewsCard
+                    key={i}
+                    article={article}
+                    onClick={() => setSelectedArticle(article)}
+                    getTimeAgo={getTimeAgo}
+                  />
+                ))
+              )}
+            </div>
+          )}
+
+          {showNotif && (
+            <NotificationPanel
+              notifArticles={notifArticles}
+              setShowNotif={setShowNotif}
+            />
+          )}
+
+        </div>
+
+        <BottomNav active={activeNav} setActive={setActiveNav} />
 
       </div>
-
-      {/* BOTTOM NAV */}
-      <BottomNav active={activeNav} setActive={setActiveNav} />
     </div>
   );
 }
