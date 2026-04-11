@@ -65,9 +65,12 @@ function App() {
       setLoading(true);
       setError("");
 
+      const fixedCategory =
+        selectedCategory === "for you" ? "general" : selectedCategory;
+
       const url = query
         ? `https://newsapi.org/v2/everything?q=${query}&apiKey=${API_KEY}`
-        : `https://newsapi.org/v2/top-headlines?country=us&category=${selectedCategory}&apiKey=${API_KEY}`;
+        : `https://newsapi.org/v2/top-headlines?country=us&category=${fixedCategory}&apiKey=${API_KEY}`;
 
       const res = await axios.get(url);
       setArticles(res.data.articles || []);
@@ -100,25 +103,24 @@ function App() {
           <Header setShowSearch={setShowSearch} />
         )}
 
+        {/* SEARCH */}
+        {!selectedArticle && (
+          <div className="searchWrapper">
+            {showSearch && (
+              <SearchBar
+                search={search}
+                setSearch={setSearch}
+                handleSearch={handleSearch}
+              />
+            )}
+          </div>
+        )}
+
+        {!selectedArticle && activeNav !== "saved" && (
+          <Tabs category={category} setCategory={setCategory} />
+        )}
+
         <div className="content">
-
-          {/* 🔥 SEARCH (fixed spacing) */}
-          {!selectedArticle && (
-            <div className="searchWrapper">
-              {showSearch && (
-                <SearchBar
-                  search={search}
-                  setSearch={setSearch}
-                  handleSearch={handleSearch}
-                />
-              )}
-            </div>
-          )}
-
-          {/* 🔥 TABS */}
-          {!selectedArticle && activeNav !== "saved" &&(
-            <Tabs category={category} setCategory={setCategory} />
-          )}
 
           {/* ARTICLE */}
           {selectedArticle ? (
@@ -200,7 +202,6 @@ function App() {
 
                   {activeNav === "saved" && (
                     <div className="bookmarkPage">
-
                       {savedNews.length === 0 ? (
                         <div className="bookmarkEmpty">
                           <div className="bookmarkBigIcon">🔖</div>
