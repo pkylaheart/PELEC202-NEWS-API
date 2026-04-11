@@ -26,7 +26,6 @@ function SearchBar({ search, setSearch, handleSearch }) {
         </button>
       )}
 
-      {/* 🔥 BACK TO SEARCH TEXT */}
       <button className="searchBtn" onClick={handleSearch}>
         SEARCH
       </button>
